@@ -10,15 +10,11 @@ import {
   makeStyles
 } from "@material-ui/core";
 import { PlayArrow, Save } from "@material-ui/icons";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_SONGS } from "../graphql/queries";
 
 function SongList() {
-  let loading = false;
-
-  const song = {
-    title: "LÜNE",
-    artist: "MÖÖN",
-    thumbnail: "http://img.youtube.com/vi/--ZtUFsIgMk/0.jpg"
-  };
+  const {data, loading, error} = useQuery(GET_SONGS)
 
   if (loading) {
     return (
@@ -35,10 +31,13 @@ function SongList() {
     );
   }
 
+  if (error) 
+    return <div>Error fetching songs</div>
+
   return (
     <div>
-      {Array.from({ length: 10 }, () => song).map((song, i) => (
-        <Song key={i} song={song} />
+      {data.songs.map(song => (
+        <Song key={song.id} song={song} />
       ))}
     </div>
   );
@@ -89,7 +88,7 @@ function Song({ song }) {
               <Save />
             </IconButton>
           </CardActions>
-        </div>
+        </div> 
       </div>
     </Card>
   );
