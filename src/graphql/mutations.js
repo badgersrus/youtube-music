@@ -6,6 +6,26 @@ export const ADD_OR_REMOVE_FROM_QUEUE = gql`
   }
 `;
 
+
+export const DELETE_SONG = gql`
+mutation deleteSong($id: uuid!) {
+  delete_songs(where: {id: {_eq: $id}}) {
+    affected_rows
+  }
+}
+`
+
+// mutation toggleTodo($id: uuid!, $done: Boolean!) {
+//   update_todos(where: { id: { _eq: $id } }, _set: { done: $done }) {
+//     returning {
+//       done
+//       id
+//       text
+//     }
+//   }
+// }
+
+
 export const ADD_SONG = gql`
   mutation addSong(
     $title: String!

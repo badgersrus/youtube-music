@@ -152,6 +152,7 @@ function SongPlayer() {
           }}
           url={state.song.url}
           playing={state.isPlaying}
+          loop={true}
           hidden
         />
         <CardMedia className={classes.thumbnail} image={state.song.thumbnail} />

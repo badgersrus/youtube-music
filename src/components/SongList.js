@@ -9,11 +9,11 @@ import {
   IconButton,
   makeStyles
 } from "@material-ui/core";
-import { PlayArrow, Save, Pause } from "@material-ui/icons";
+import { PlayArrow, Save, Pause, Delete } from "@material-ui/icons";
 import { useMutation, useSubscription } from "@apollo/react-hooks";
 import { GET_SONGS } from "../graphql/subscriptions";
 import { SongContext } from "../App";
-import { ADD_OR_REMOVE_FROM_QUEUE } from "../graphql/mutations";
+import { ADD_OR_REMOVE_FROM_QUEUE, DELETE_SONG } from "../graphql/mutations";
 
 function SongList() {
   const { data, loading, error } = useSubscription(GET_SONGS);
@@ -77,6 +77,7 @@ function Song({ song }) {
       localStorage.setItem("queue", JSON.stringify(data.addOrRemoveFromQueue));
     }
   });
+  const [deleteSong] = useMutation(DELETE_SONG)
   const { state, dispatch } = React.useContext(SongContext);
   const [currentSongPlaying, setCurrentSongPlaying] = React.useState(false);
   const { title, artist, thumbnail } = song;
@@ -95,6 +96,12 @@ function Song({ song }) {
     addOrRemoveFromQueue({
       variables: { input: { ...song, __typename: "Song" } }
     });
+  }
+
+  function handleRemove({ id }) {
+    deleteSong({
+      variables: { id } 
+    })
   }
 
   return (
@@ -117,9 +124,14 @@ function Song({ song }) {
             <IconButton
               onClick={handleAddOrRemoveFromQueue}
               size="small"
-              color="secondary"
-            >
+              color="secondary">
               <Save />
+            </IconButton>
+            <IconButton
+              onClick={() => handleRemove(song)}
+              size="small"
+              color="secondary">
+              <Delete />
             </IconButton>
           </CardActions>
         </div>
