@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import QueuedSongList from "./QueuedSongList";
 import {
   Card,
@@ -9,7 +9,7 @@ import {
   CardMedia,
   makeStyles
 } from "@material-ui/core";
-import { SkipPrevious, PlayArrow, SkipNext, Pause } from "@material-ui/icons";
+import { SkipPrevious, PlayArrow, SkipNext, Pause, Loop } from "@material-ui/icons";
 import { SongContext } from "../App";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_QUEUED_SONGS } from "../graphql/queries";
@@ -40,6 +40,9 @@ const useStyles = makeStyles(theme => ({
   playIcon: {
     height: 38,
     width: 38
+  },
+  enabledButton: {
+    color: "#669999",
   }
 }));
 
@@ -51,6 +54,7 @@ function SongPlayer() {
   const [playedSeconds, setPlayedSeconds] = React.useState(0);
   const [seeking, setSeeking] = React.useState(false);
   const [positionInQueue, setPositionInQueue] = React.useState(0);
+  const [shouldLoop, setLoop] = useState(false)
   const classes = useStyles();
 
   React.useEffect(() => {
@@ -101,6 +105,10 @@ function SongPlayer() {
     }
   }
 
+  function handleLoopClick() {
+    setLoop(!shouldLoop)
+  }
+
   return (
     <>
       <Card variant="outlined" className={classes.container}>
@@ -127,10 +135,15 @@ function SongPlayer() {
             <IconButton onClick={handlePlayNextSong}>
               <SkipNext />
             </IconButton>
-            <Typography variant="subtitle1" component="p" color="textSecondary">
+            {
+              shouldLoop ? <IconButton onClick={handleLoopClick} className={classes.enabledButton} ><Loop /></IconButton> :
+                <IconButton onClick={handleLoopClick}><Loop /></IconButton>
+            }
+            
+          </div>
+          <Typography variant="subtitle1" component="p" color="textSecondary">
               {formatDuration(playedSeconds)}
             </Typography>
-          </div>
           <Slider
             onMouseDown={handleSeekMouseDown}
             onMouseUp={handleSeekMouseUp}
@@ -151,9 +164,7 @@ function SongPlayer() {
             }
           }}
           url={state.song.url}
-          playing={state.isPlaying}
-          loop={true}
-          hidden
+          playing={state.isPlaying}          hidden
         />
         <CardMedia className={classes.thumbnail} image={state.song.thumbnail} />
       </Card>

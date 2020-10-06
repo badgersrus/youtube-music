@@ -18,12 +18,6 @@ import { ADD_OR_REMOVE_FROM_QUEUE, DELETE_SONG } from "../graphql/mutations";
 function SongList() {
   const { data, loading, error } = useSubscription(GET_SONGS);
 
-  // const song = {
-  //   title: "LÜNE",
-  //   artist: "MÖÖN",
-  //   thumbnail: "http://img.youtube.com/vi/--ZtUFsIgMk/0.jpg"
-  // };
-
   if (loading) {
     return (
       <div
@@ -124,13 +118,13 @@ function Song({ song }) {
             <IconButton
               onClick={handleAddOrRemoveFromQueue}
               size="small"
-              color="secondary">
+              color="primary">
               <Save />
             </IconButton>
             <IconButton
               onClick={() => handleRemove(song)}
               size="small"
-              color="secondary">
+              color="primary">
               <Delete />
             </IconButton>
           </CardActions>
