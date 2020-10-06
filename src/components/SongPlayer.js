@@ -43,6 +43,9 @@ const useStyles = makeStyles(theme => ({
   },
   enabledButton: {
     color: "#669999",
+  },
+  slider: {
+    maxWidth: 400
   }
 }));
 
@@ -145,6 +148,7 @@ function SongPlayer() {
               {formatDuration(playedSeconds)}
             </Typography>
           <Slider
+            className={classes.slider}
             onMouseDown={handleSeekMouseDown}
             onMouseUp={handleSeekMouseUp}
             onChange={handleProgressChange}

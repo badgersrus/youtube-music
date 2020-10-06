@@ -60,6 +60,18 @@ const useStyles = makeStyles(theme => ({
     objectFit: "cover",
     width: 140,
     height: 140
+  },
+  button: {
+    color: "grey",
+    '&:hover': {
+      color: "#669999"
+    }
+  },
+  deleteButton: {
+    color: "grey",
+    '&:hover': {
+      color: "#ff4d4d"
+    }
   }
 }));
 
@@ -112,16 +124,18 @@ function Song({ song }) {
             </Typography>
           </CardContent>
           <CardActions>
-            <IconButton onClick={handleTogglePlay} size="small" color="primary">
+            <IconButton className={classes.button} onClick={handleTogglePlay} size="small" color="primary">
               {currentSongPlaying ? <Pause /> : <PlayArrow />}
             </IconButton>
             <IconButton
+              className={classes.button}
               onClick={handleAddOrRemoveFromQueue}
               size="small"
               color="primary">
               <Save />
             </IconButton>
             <IconButton
+              className={classes.deleteButton}
               onClick={() => handleRemove(song)}
               size="small"
               color="primary">

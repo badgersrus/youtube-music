@@ -13,12 +13,6 @@ import { ADD_OR_REMOVE_FROM_QUEUE } from "../graphql/mutations";
 function QueuedSongList({ queue }) {
   const greaterThanMd = useMediaQuery(theme => theme.breakpoints.up("md"));
 
-  // const song = {
-  //   title: "LÜNE",
-  //   artist: "MÖÖN",
-  //   thumbnail: "http://img.youtube.com/vi/--ZtUFsIgMk/0.jpg"
-  // };
-
   return (
     greaterThanMd && (
       <div style={{ margin: "10px 0" }}>
@@ -53,6 +47,12 @@ const useStyles = makeStyles({
   songInfoContainer: {
     overflow: "hidden",
     whiteSpace: "nowrap"
+  },
+  deleteButton: {
+    color: "white",
+    '&:hover': {
+      color: "#ff4d4d"
+    }
   }
 });
 
@@ -86,8 +86,8 @@ function QueuedSong({ song }) {
           {artist}
         </Typography>
       </div>
-      <IconButton onClick={handleAddOrRemoveFromQueue}>
-        <Delete color="error" />
+      <IconButton className={classes.deleteButton} onClick={handleAddOrRemoveFromQueue}>
+        <Delete />
       </IconButton>
     </div>
   );

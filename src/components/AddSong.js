@@ -7,9 +7,10 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  makeStyles
+  makeStyles,
+  IconButton
 } from "@material-ui/core";
-import { Link, AddBoxOutlined } from "@material-ui/icons";
+import { Link, Add} from "@material-ui/icons";
 import ReactPlayer from "react-player";
 import SoundcloudPlayer from "react-player/lib/players/SoundCloud";
 import YoutubePlayer from "react-player/lib/players/YouTube";
@@ -17,6 +18,11 @@ import { useMutation } from "@apollo/react-hooks";
 import { ADD_SONG } from "../graphql/mutations";
 
 const useStyles = makeStyles(theme => ({
+  addButon: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
   container: {
     display: "flex",
     alignItems: "center"
@@ -201,16 +207,15 @@ function AddSong() {
           )
         }}
       />
-      <Button
+
+      <IconButton
         disabled={!playable}
-        className={classes.addSongButton}
+        className={classes.button}
         onClick={() => setDialog(true)}
-        variant="contained"
-        color="primary"
-        endIcon={<AddBoxOutlined />}
-      >
-        Add
-      </Button>
+        size="small"
+        color="primary">
+        <Add />
+      </IconButton>
       <ReactPlayer url={url} hidden onReady={handleEditSong} />
     </div>
   );
